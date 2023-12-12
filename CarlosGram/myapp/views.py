@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm
+from .forms import SignupForm, CreateNewPost
 
 # Create your views here.
 def signup(request):    
@@ -40,3 +40,16 @@ def loginPage(request):
 @login_required
 def home(request):
     return render(request, 'home.html')
+
+@login_required
+def createNewPost(request):
+    if request.method == 'POST':
+        form = CreateNewPost(request.POST)
+        if form.is_valid():
+            print('Post criado com sucesso!')
+            form.save()
+            return redirect('home')
+    else:
+        print('Post inválido. Por favor, tente novamente.')
+        form = CreateNewPost()
+    return render(request, 'createNewPost.html', {'form': form})
