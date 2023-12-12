@@ -2,6 +2,7 @@ h1 {
     font-size: 24px;
     font-weight: bold;
     color: #333;
+    text-align: center;
 }
 img {
     top: 20px;
@@ -19,6 +20,7 @@ body {
 button {
     display: block;
     margin: auto;
+    margin-top: 20px; /* Add margin-top to lower the button */
     border-radius: 10px;
     border: 3px solid #20a6db;
     background-color: #ffffff;
@@ -31,6 +33,7 @@ button {
 /* Stylize the placeholder text */
 input::placeholder {
     font-family: 'Afacad', sans-serif;
+    font-size: 18px;
     color: #c2c2c2;
     opacity: 1; /* Firefox */
 }
@@ -61,4 +64,16 @@ form input {
     border-radius: 10px;
     font-size: 16px;
     color: #333;
+}
+
+a {
+    font-size: 18px;
+    color: #ffffff;    
+    font-weight: bold;
+    
+}
+
+strong {
+    font-size: 18px;
+    
 }

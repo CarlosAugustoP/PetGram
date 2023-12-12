@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
 {% block content %}
-    <h2>Login</h2>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +9,23 @@
     <title>Document</title>
 </head>
 <body>
+    {% load static %}
+    <img src="{% static 'img/logo.png' %}" alt="Petgram Logo">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <form action="{% url 'login' %}" method="post">
+        <h1>Welcome to Petgram!</h1>
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Usuário" required value="{{ form.username.value|default:'' }}">
-        <input type="password" name="password" placeholder="Senha" required>
-        <p><input type="submit" value="Login"></p>
+        <input type="text" name="username" placeholder="User" required value="{{ form.username.value|default:'' }}">
+        <input type="password" name="password" placeholder="Password" required>
+        <strong>Don't have an account? </strong><a href="{% url 'index' %}">Join us!</a>
+        <button type="submit">Login</button>
+        
     </form>
 </body>
 </html>

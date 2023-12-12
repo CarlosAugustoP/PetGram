@@ -10,7 +10,7 @@
 </head>
 <body>
     {% load static %}
-    <img src="{% static 'img/logo.png' %}" alt="Your Image">
+    <img src="{% static 'img/logo.png' %}" alt="Petgram Logo">
     
     {% if messages %}
         <ul class="messages">
@@ -20,34 +20,35 @@
         </ul>
     {% endif %}
     <form method="post" action="{% url 'index' %}">
-        <div class = "formname"><h1>Welcome to PetGram!</h1></div>
+        <div class = "formname"><h1>Join the world's favorite pet social media!</h1></div>
         {% csrf_token %}
     
         <label for="{{ form.username.id_for_label }}"></label>
-        <input type="text" name="username" placeholder="Usuário" required value="{{ form.username.value|default:'' }}">
+        <input type="text" name="username" placeholder="User" required value="{{ form.username.value|default:'' }}">
         <br>
     
         <label for="{{ form.email.id_for_label }}"></label>
-        <input type="email" name="email" placeholder="Email" required value="{{ form.email.value|default:'' }}">
+        <input type="email" name="email" placeholder="E-mail" required value="{{ form.email.value|default:'' }}">
         <br>
     
         <label for="{{ form.password1.id_for_label }}"></label>
-        <input type="password" name="password1" placeholder="Senha" required>
+        <input type="password" name="password1" placeholder="Password" required>
         <br>
     
         <label for="{{ form.password2.id_for_label }}"></label>
-        <input type="password" name="password2" placeholder="Confirmar Senha" required>
+        <input type="password" name="password2" placeholder="Confirm Password" required>
         <br>
     
         <label for="{{ form.phone.id_for_label }}"></label>
-        <input type="tel" name="phone" placeholder="Telefone" required value="{{ form.phone.value|default:'' }}">
+        <input type="tel" name="phone" placeholder="Phone Number" required value="{{ form.phone.value|default:'' }}">
         <br>
     
         <label for="{{ form.address.id_for_label }}"></label>
-        <input type="text" name="address" placeholder="Endereço" required value="{{ form.address.value|default:'' }}">
+        <input type="text" name="address" placeholder="Country" required value="{{ form.address.value|default:'' }}">
         <br>
-    
+        <strong>Already have an account? </strong><a href="{% url 'login' %}">Login here!</a>
         <button type="submit">Signup</button>
+        
     </form>
     
     
