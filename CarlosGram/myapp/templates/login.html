@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <h2>Login</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Usuário" required value="{{ form.username.value|default:'' }}">
+        <input type="password" name="password" placeholder="Senha" required>
+        <p><input type="submit" value="Login"></p>
+    </form>
+</body>
+</html>
+{% endblock %}
