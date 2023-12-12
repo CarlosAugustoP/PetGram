@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm
 
 # Create your views here.
-def home(request):    
+def signup(request):    
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
@@ -30,9 +30,13 @@ def loginPage(request):
             login(request, user)
             messages.success(request, f'Login bem-sucedido para {username}!')
             print('Login bem-sucedido.')
-             
+            return redirect('home')
         else:
             print('Login inválido. Por favor, tente novamente.')
             messages.error(request, 'Login inválido. Por favor, tente novamente.')
 
     return render(request, 'login.html')
+
+@login_required
+def home(request):
+    return render(request, 'home.html')
