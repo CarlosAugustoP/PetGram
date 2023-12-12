@@ -6,14 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <form> 
-        <label for="caption">caption</label>
-        <input type="text" name="caption" id="caption" placeholder="caption">
-        <br>
-        <label for="image">Image</label>
-        <input type="file" name="image" id="image" placeholder="Image">
-        <br>
-        <button type="submit">Create Post</button>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% for field in form %}
+            {{ field.errors }}
+        {% endfor %}
+        <button type="submit">Create</button>
     </form>
+    
 </body>
 </html>

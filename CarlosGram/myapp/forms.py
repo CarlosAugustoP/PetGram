@@ -9,6 +9,16 @@ class SignupForm(UserCreationForm):
     fields = ['username', 'email', 'password1', 'password2', 'phone', 'address']
 
 class CreateNewPost(forms.Form):
+  class Meta:
+    model = post
+    fields = ['image', 'caption']
+
+class DemandForm(forms.ModelForm):
     class Meta:
         model = post
-        fields = ['image', 'caption']
+        fields = ['description','image']
+        labels = {
+
+          'description': 'Descrição',
+          
+        }

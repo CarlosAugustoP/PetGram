@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm, CreateNewPost
-
+from .forms import SignupForm, CreateNewPost, DemandForm
+from .models import post
+from django.http import HttpResponse
 # Create your views here.
 def signup(request):    
     if request.method == 'POST':
@@ -42,14 +43,16 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required
-def createNewPost(request):
-    if request.method == 'POST':
-        form = CreateNewPost(request.POST)
+def post_create(request):
+  if request.method == 'POST':
+        form = DemandForm(request.POST)
         if form.is_valid():
-            print('Post criado com sucesso!')
-            form.save()
+            post = form.save(commit=False)
+            post.user = request.user  
+            post.save()
             return redirect('home')
-    else:
-        print('Post inválido. Por favor, tente novamente.')
-        form = CreateNewPost()
-    return render(request, 'createNewPost.html', {'form': form})
+  else:
+        form = DemandForm()
+
+  return render(request, 'createnewpost.html', {'form': form})
+  
