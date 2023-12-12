@@ -19,7 +19,7 @@ def home(request):
             
     else:
         form = SignupForm()
-    return render(request, 'home.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})
 
 def loginPage(request):
     if request.method == 'POST':

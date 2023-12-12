@@ -19,7 +19,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <form method="post" action="{% url 'index' %}">
+    <form method="post" action="{% url 'signup' %}">
         <div class = "formname"><h1>Join the world's favorite pet social media!</h1></div>
         {% csrf_token %}
     
@@ -46,7 +46,7 @@
         <label for="{{ form.address.id_for_label }}"></label>
         <input type="text" name="address" placeholder="Country" required value="{{ form.address.value|default:'' }}">
         <br>
-        <strong>Already have an account? </strong><a href="{% url 'login' %}">Login here!</a>
+        <strong>Already have an account? </strong><a href="{% url 'index' %}">Login here!</a>
         <button type="submit">Signup</button>
         
     </form>
