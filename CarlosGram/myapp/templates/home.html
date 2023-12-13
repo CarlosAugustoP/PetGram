@@ -16,7 +16,9 @@
                     {% for post in posts %}
                     Usuário: {{post.user}}<br>
                     <li>Descrição: {{post.description}}</li>
-                    
+                    {% if post.image %}
+                    <img src = "{{post.image.url}}" alt = "">
+                    {% endif %}
                     {% endfor %}
                     {}
                 </ul>
