@@ -8,23 +8,25 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Posts</h1>
+    <a href = "{% url 'create' %}">create new post</a>
     <div class = "container">
         <div class = "row">
-            <div class = "col-12">
-                <h1>Posts</h1>
-                <ul>
+            <div class = "col-12">        
                     {% for post in posts %}
-                    Usuário: {{post.user}}<br>
-                    <li>Descrição: {{post.description}}</li>
-                    {% if post.image %}
-                    <img src = "{{post.image.url}}" alt = "">
-                    {% endif %}
+                    <div class = post>
+                        {{user.username}}
+                        <p>Descrição: {{post.description}}</p>
+                        {% if post.image %}
+                        <img src = "{{post.image.url}}" alt = "">
+                        {% endif %}
+                    </div>
                     {% endfor %}
-                    {}
-                </ul>
+                    
+                
             </div>
         </div>
-    <a href = "{% url 'create' %}">create new post</a>
+    
 </body>
 </html>
 {% endblock %}
