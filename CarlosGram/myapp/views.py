@@ -40,12 +40,18 @@ def loginPage(request):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    current_user = request.user
+    if current_user.is_authenticated:
+        posts = post.objects.all() #all instances of a post 
+        return render(request, 'home.html', {'posts': posts}) #rendered with context of the posts
+    else:
+        return redirect('login')
+    
 
 @login_required
 def post_create(request):
   if request.method == 'POST':
-        form = DemandForm(request.POST)
+        form = DemandForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user  

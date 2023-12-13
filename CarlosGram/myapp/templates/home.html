@@ -8,7 +8,21 @@
     <title>Document</title>
 </head>
 <body>
-    ADAWDAWD
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-12">
+                <h1>Posts</h1>
+                <ul>
+                    {% for post in posts %}
+                    Usuário: {{post.user}}<br>
+                    <li>Descrição: {{post.description}}</li>
+                    
+                    {% endfor %}
+                    {}
+                </ul>
+            </div>
+        </div>
+    <a href = "{% url 'create' %}">create new post</a>
 </body>
 </html>
 {% endblock %}

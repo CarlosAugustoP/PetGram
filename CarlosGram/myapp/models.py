@@ -11,7 +11,7 @@ class User(AbstractUser):
 
 class post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to='images/')
     description = models.CharField(max_length=255, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
