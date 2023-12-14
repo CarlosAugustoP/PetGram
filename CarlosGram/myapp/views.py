@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, CreateNewPost, DemandForm
 from .models import post
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 # Create your views here.
 def signup(request):    
     if request.method == 'POST':
@@ -62,3 +64,10 @@ def post_create(request):
 
   return render(request, 'createnewpost.html', {'form': form})
   
+@login_required
+def like_a_post(request):
+    post = get_object_or_404(post, id=request.POST.get('post_id'))
+    post.likes += 1
+    post.who_liked.add(request.user)
+    post.save()
+    return HttpResponseRedirect(post.get_absolute_url())

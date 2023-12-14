@@ -2,18 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'createnewpoststyle.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #image-preview {
+            max-width: 100%;
+            max-height: 200px;
+        }
+    </style>
 </head>
 <body>
-    <form method="post" method = POST enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% for field in form %}
-            {{ field.errors }}
-        {% endfor %}
-        <button type="submit">Create</button>
-    </form>
     
+        <div class="card">
+            <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
+                {% csrf_token %}
+                <h1>Create New Post</h1>
+                <p><textarea name="description" placeholder="What's going on?"></textarea></p>
+                <p>
+                    <input type="file" name="image" id="image-input" onchange="previewImage(this)">
+                </p>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+    
+    <div class = pre-vis>
+        <h1>Image preview</h1>
+        <img id="image-preview" src="#" alt="Image Preview">
+    </div>
+    <a href = "{% url 'home' %}">
+        <img id="back" src="{% static 'img/addNewpost.png' %}" alt="cancel" title="cancel"> 
+    </a>
+    <script>
+        function previewImage(input) {
+            var preview = document.getElementById('image-preview');
+            var file = input.files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "#";
+            }
+        }
+    </script>
 </body>
 </html>
