@@ -38,13 +38,13 @@
         
         {% for post in posts %}
         <div class="post">
-            <span>{{post.user.username}}</span>
+            <a href="{% url 'view_other_profile' username=post.user.username %}">
+                <span>{{ post.user.username }}</span>
+            </a>
             {% if post.image %}
-            
-                <img src="{{post.image.url}}" alt="">
-            
+                <img src="{{ post.image.url }}" alt="">
             {% endif %}
-            <p>Descrição: {{post.description}}</p>
+            <p>{{ post.description }}</p>
         </div>
         {% endfor %}
     </div>

@@ -26,4 +26,6 @@ class post(models.Model):
     def __str__(self):
         return self.title
 
-    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_image = models.ImageField(upload_to='images/', default='images/defaultuser.png')

@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, CreateNewPost, DemandForm
-from .models import post
+from .models import post, User, UserProfile
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -74,3 +74,33 @@ def like_a_post(request):
     post.who_liked.add(request.user)
     post.save()
     return HttpResponseRedirect(post.get_absolute_url())
+
+@login_required
+def logoutPage(request):
+    logout(request)
+    return redirect('login')
+
+@login_required
+def view_profile(request, username=None):
+    if username:
+        user = get_object_or_404(User, username=username)
+        user_profile = get_object_or_404(UserProfile, user=user)
+        is_own_profile = False
+    else:
+        user_profile = request.user.userprofile
+        is_own_profile = True
+
+    if request.method == 'POST':
+        form = SignupForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+    else:
+        form = SignupForm(instance=user_profile)
+
+    context = {
+        'user_profile': user_profile,
+        'is_own_profile': is_own_profile,
+        'form': form,
+    }
+
+    return render(request, 'profile.html', context)
