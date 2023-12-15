@@ -15,6 +15,7 @@ body {
     background-image: url("img/grass.png");
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 button {
@@ -29,7 +30,10 @@ button {
     cursor: pointer;
 }
 
-
+button:hover {
+    background-color: #20a6db;
+    color: white;
+}
 /* Stylize the placeholder text */
 input::placeholder {
     font-family: 'Afacad', sans-serif;

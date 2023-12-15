@@ -10,10 +10,6 @@ img {
     width: 75%;
 }
 
-.col-12 {
-    margin-top: 125px;
-}
-
 .post {
     margin: 50px auto;
     width: 400px;
@@ -88,4 +84,8 @@ button {
     padding: 10px 20px;
     cursor: pointer;
 
+}
+button:hover {
+    background-color: #20a6db;
+    color: white;
 }

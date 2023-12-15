@@ -14,7 +14,9 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
+            {% if message.tags and 'INVALID_LOGIN_ERROR' in message.tags %}
                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
             {% endfor %}
         </ul>
     {% endif %}

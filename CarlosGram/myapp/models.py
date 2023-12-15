@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
+from django.core.exceptions import ValidationError
 
 
 class User(AbstractUser):
@@ -15,7 +16,7 @@ class User(AbstractUser):
 
 class post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True, upload_to='images/')
+    image = models.ImageField(null=True, upload_to='images/')
     description = models.CharField(max_length=500, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
@@ -24,3 +25,5 @@ class post(models.Model):
 
     def __str__(self):
         return self.title
+
+    

@@ -31,12 +31,12 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, f'Login bem-sucedido para {username}!')
             print('Login bem-sucedido.')
             return redirect('home')
         else:
+            error_message = 'Login inválido. Por favor, tente novamente.'
             print('Login inválido. Por favor, tente novamente.')
-            messages.error(request, 'Login inválido. Por favor, tente novamente.')
+            messages.error(request, error_message, extra_tags='INVALID_LOGIN_ERROR')
 
     return render(request, 'login.html')
 
@@ -59,6 +59,9 @@ def post_create(request):
             post.user = request.user  
             post.save()
             return redirect('home')
+        else:
+            error_message = 'Every post must have an image. Try again!'
+            messages.error(request, error_message, extra_tags='IMAGE_BLANK_ERROR')
   else:
         form = DemandForm()
 
