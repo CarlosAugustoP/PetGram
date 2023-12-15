@@ -29,3 +29,6 @@ urlpatterns = [
     path('profile/', views.view_profile, name='view_profile'),
     path('profile/<str:username>/', views.view_profile, name='view_other_profile')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

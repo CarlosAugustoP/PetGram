@@ -29,3 +29,7 @@ class post(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(upload_to='images/', default='images/defaultuser.png')
+
+    def __str__(self):
+        return self.user.username
+    

@@ -8,6 +8,9 @@ from .models import post, User, UserProfile
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your views here.
 def signup(request):    
     if request.method == 'POST':
@@ -80,6 +83,17 @@ def logoutPage(request):
     logout(request)
     return redirect('login')
 
+@receiver(post_save, sender=User)
+def create_profile (sender, instance, created, **kwargs):
+    if created:
+        print('Profile created!')
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_profile (sender, instance, **kwargs):
+    print('Profile saved!')
+    instance.userprofile.save()
+
 @login_required
 def view_profile(request, username=None):
     if username:
@@ -104,3 +118,5 @@ def view_profile(request, username=None):
     }
 
     return render(request, 'profile.html', context)
+
+
