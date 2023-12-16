@@ -71,6 +71,7 @@ def post_create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user  
+            post.user_profile = request.user.userprofile
             post.save()
             return redirect('home')
         else:

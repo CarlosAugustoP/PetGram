@@ -63,8 +63,10 @@ span {
     margin : -10px 0;
     display: inline-block;
     width: 30px;
-
-    
+    height: 30px;
+    padding-right : 2px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .card2 {
@@ -108,4 +110,8 @@ button:hover {
 }
 a {
     text-decoration: none;
+}
+pre {
+    font-family: 'Afacad', sans-serif;
+    font-size: 18px;
 }

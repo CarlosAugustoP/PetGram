@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
 
-
 class User(AbstractUser):
     profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
     phone = models.CharField(max_length=20, null = True, blank=True)
