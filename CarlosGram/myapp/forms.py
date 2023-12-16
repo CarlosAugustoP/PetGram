@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm
-from .models import User,post, UserProfile
+from .models import User,Post, UserProfile
 
 class SignupForm(UserCreationForm):
   class Meta:
@@ -10,12 +10,12 @@ class SignupForm(UserCreationForm):
 
 class CreateNewPost(forms.Form):
   class Meta:
-    model = post
+    model = Post
     fields = ['image', 'caption']
 
 class DemandForm(forms.ModelForm):
     class Meta:
-        model = post
+        model = Post
         fields = ['description','image']
         labels = {
 
@@ -30,4 +30,3 @@ class UserProfileForm(forms.ModelForm):
       labels = {
           'profile_image': 'Foto de perfil',
       }
-      

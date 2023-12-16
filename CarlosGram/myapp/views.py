@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, CreateNewPost, DemandForm, UserProfileForm
-from .models import post, User, UserProfile
+from .models import Post, User, UserProfile
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -48,7 +48,7 @@ def home(request, selected_username=None):
     current_user = request.user
     
     if current_user.is_authenticated:
-        posts = post.objects.all()  # Retrieve all instances of a post
+        posts = Post.objects.all()  # Retrieve all instances of a post
 
         if selected_username:
             # If a user is selected, retrieve the UserProfile instance

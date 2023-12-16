@@ -13,8 +13,16 @@ class User(AbstractUser):
     amount_of_following = models.IntegerField(default=0)
     followers = models.ManyToManyField('self', blank=True)
 # Create your models here.
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_image = models.ImageField(upload_to='images/', default='images/defaultuser.png')
 
-class post(models.Model):
+    def __str__(self):
+        return self.user.username
+    
+class Post(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null= True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(null=True, upload_to='images/')
     description = models.CharField(max_length=500, null=True, blank=True)
@@ -24,12 +32,6 @@ class post(models.Model):
     who_liked = models.ManyToManyField(User, related_name='who_liked', blank=True)
 
     def __str__(self):
-        return self.title
+        return self.description
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_image = models.ImageField(upload_to='images/', default='images/defaultuser.png')
 
-    def __str__(self):
-        return self.user.username
-    
