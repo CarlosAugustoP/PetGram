@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm, CreateNewPost, DemandForm
+from .forms import SignupForm, CreateNewPost, DemandForm, UserProfileForm
 from .models import post, User, UserProfile
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -44,16 +44,27 @@ def loginPage(request):
     return render(request, 'login.html')
 
 @login_required
-def home(request):
+def home(request, selected_username=None):
     current_user = request.user
+    
     if current_user.is_authenticated:
-        posts = post.objects.all() #all instances of a post 
-        return render(request, 'home.html', {'posts': posts}) #rendered with context of the posts
+        posts = post.objects.all()  # Retrieve all instances of a post
+
+        if selected_username:
+            # If a user is selected, retrieve the UserProfile instance
+            try:
+                user_profile = UserProfile.objects.get(user__username=selected_username)
+            except UserProfile.DoesNotExist:
+                # Handle the case when the selected user does not exist
+                user_profile = None
+        else:
+            # If no user is selected, use the current user's profile
+            user_profile = current_user.userprofile
+
+        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile})
     else:
         return redirect('login')
-    
 
-@login_required
 def post_create(request):
   if request.method == 'POST':
         form = DemandForm(request.POST, request.FILES)
@@ -105,11 +116,11 @@ def view_profile(request, username=None):
         is_own_profile = True
 
     if request.method == 'POST':
-        form = SignupForm(request.POST, instance=user_profile)
+        form = UserProfileForm(request.POST, instance=user_profile)
         if form.is_valid():
             form.save()
     else:
-        form = SignupForm(instance=user_profile)
+        form = UserProfileForm(instance=user_profile)
 
     context = {
         'user_profile': user_profile,

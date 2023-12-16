@@ -13,6 +13,7 @@
 {% else %}
 <h2>{{ user_profile.user.username }}'s Profile</h2>
 {% endif %}
+<img src="{{ user_profile.profile_image.url }}" alt="">
 
 <form method="post" action="{% if is_own_profile %}{% url 'view_own_profile' %}{% else %}{% url 'view_other_profile' username=user_profile.user.username %}{% endif %}">
 {% csrf_token %}
