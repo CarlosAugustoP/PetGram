@@ -26,7 +26,7 @@ class DemandForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
    class Meta:
       model = UserProfile
-      fields = ['profile_image',]
+      fields = ['profile_image']
       labels = {
           'profile_image': 'Foto de perfil',
       }

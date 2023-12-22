@@ -1,3 +1,5 @@
+{% extends 'profilebase.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,22 +8,28 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- profile.html -->
-
-{% if is_own_profile %}
-<h2>Your Profile</h2>
-{% else %}
-<h2>{{ user_profile.user.username }}'s Profile</h2>
-{% endif %}
-<img src="{{ user_profile.profile_image.url }}" alt="">
-
-<form method="post" action="{% if is_own_profile %}{% url 'view_own_profile' %}{% else %}{% url 'view_other_profile' username=user_profile.user.username %}{% endif %}">
-{% csrf_token %}
-{{ form.as_p }}
-
-
-<button type="submit">Save</button>
-</form>
-
+    {% if is_own_profile %}
+        <h2>Your Profile</h2>
+    {% else %}
+        <h2>{{ user_profile.user.username }}'s Profile</h2>
+    {% endif %}
+    <img src="{{ user_profile.profile_image.url }}" alt="">
+    <form method="post" action="{% url 'view_profile' %}">
+         {% if is_own_profile %}
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        {% endif %} 
+    </form>
+    <div class="posts">
+        {% for post in posts %}
+        <div class="post"> 
+            {% if post.image %}
+                <img id = "post_image" src="{{ post.image.url }}" alt="">
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>    
 </body>
 </html>
+{% endblock %}

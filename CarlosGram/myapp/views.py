@@ -107,18 +107,30 @@ def save_profile (sender, instance, **kwargs):
     instance.userprofile.save()
 
 @login_required
-def view_profile(request, username=None):
-    if username:
-        user = get_object_or_404(User, username=username)
-        user_profile = get_object_or_404(UserProfile, user=user)
-        is_own_profile = False
+def view_profile(request, username=None):   
+    current_user = request.user
+     #store the user that is logged in in the current user variable
+    if username: #checkl if username exists 
+        user = get_object_or_404(User, username=username) #if it does, get the user object
+        posts = Post.objects.filter(user=user)
+        print(user)
+        user_profile = get_object_or_404(UserProfile, user=user) #get the user profile object
+        print(user_profile)
+        if user == current_user:
+            is_own_profile = True
+        else:
+            is_own_profile = False
     else:
-        user_profile = request.user.userprofile
+        user = current_user
+        posts = Post.objects.filter(user=user)
+        user_profile = current_user.userprofile
         is_own_profile = True
 
     if request.method == 'POST':
+        posts = Post.objects.filter(user=current_user)
         form = UserProfileForm(request.POST, instance=user_profile)
         if form.is_valid():
+            print('Form is valid!')
             form.save()
     else:
         form = UserProfileForm(instance=user_profile)
@@ -127,6 +139,7 @@ def view_profile(request, username=None):
         'user_profile': user_profile,
         'is_own_profile': is_own_profile,
         'form': form,
+        'posts': posts,
     }
 
     return render(request, 'profile.html', context)

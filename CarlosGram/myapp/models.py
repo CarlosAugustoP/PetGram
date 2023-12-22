@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
 
+# Create your models here.
+
 class User(AbstractUser):
     profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
     phone = models.CharField(max_length=20, null = True, blank=True)
@@ -11,8 +13,10 @@ class User(AbstractUser):
     amount_of_followers = models.IntegerField(default=0)
     amount_of_following = models.IntegerField(default=0)
     followers = models.ManyToManyField('self', blank=True)
-# Create your models here.
-    
+
+    def __str__(self):
+        return self.username
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(upload_to='images/', default='images/defaultuser.png')
