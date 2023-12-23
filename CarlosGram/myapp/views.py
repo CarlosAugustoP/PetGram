@@ -109,7 +109,6 @@ def save_profile (sender, instance, **kwargs):
 @login_required
 def view_profile(request, username=None):   
     current_user = request.user
-     #store the user that is logged in in the current user variable
     if username: #checkl if username exists 
         user = get_object_or_404(User, username=username) #if it does, get the user object
         posts = Post.objects.filter(user=user)
@@ -128,12 +127,13 @@ def view_profile(request, username=None):
 
     if request.method == 'POST':
         posts = Post.objects.filter(user=current_user)
-        form = UserProfileForm(request.POST, instance=user_profile)
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             print('Form is valid!')
             form.save()
     else:
         form = UserProfileForm(instance=user_profile)
+        print('Form is not valid!')
 
     context = {
         'user_profile': user_profile,

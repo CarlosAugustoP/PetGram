@@ -14,13 +14,15 @@
         <h2>{{ user_profile.user.username }}'s Profile</h2>
     {% endif %}
     <img src="{{ user_profile.profile_image.url }}" alt="">
-    <form method="post" action="{% url 'view_profile' %}">
+
+    <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
          {% if is_own_profile %}
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Save</button>
         {% endif %} 
     </form>
+
     <div class="posts">
         {% for post in posts %}
         <div class="post"> 
