@@ -21,6 +21,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(upload_to='images/', default='images/defaultuser.png')
     bio = models.CharField(max_length=100, null=True, blank=True)
+    
     def __str__(self):
         return self.user.username
     
@@ -36,5 +37,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.description
+    
+    def increment_likes(self):
+        self.likes += 1
+        self.save()
 
 

@@ -85,7 +85,6 @@ def post_create(request):
 @login_required
 def like_a_post(request):
     post = get_object_or_404(post, id=request.POST.get('post_id'))
-    post.likes += 1
     post.who_liked.add(request.user)
     post.save()
     return HttpResponseRedirect(post.get_absolute_url())
@@ -143,5 +142,4 @@ def view_profile(request, username=None):
     }
 
     return render(request, 'profile.html', context)
-
 
