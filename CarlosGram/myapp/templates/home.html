@@ -43,10 +43,19 @@
                 <a href="{% url 'view_other_profile' username=post.user.username %}">
                     <pre><span><img id = "profilepic" src="{{ post.user_profile.profile_image.url }}" alt="">  {{ post.user.username }}</span></pre>
                 </a>
+               
                <div id = "postlikes">
-                   <a href="{% url 'like_post' post.id %}">
+                    {% if post.id in liked_posts %}
+                    <a href="{% url 'like_post' post.id %}">
+                        <img id = "heart" src="{% static 'img/LikedPost.png' %}" alt="">
+                    </a><p>{{ post.likes}}</p>
+                    
+                    {% else %}
+                    <a href="{% url 'like_post' post.id %}">
                         <img id = "heart" src="{% static 'img/likePost.svg' %}" alt="">
                     </a><p>{{ post.likes}}</p>
+                       
+                    {% endif %}
                </div>
             </div>
 

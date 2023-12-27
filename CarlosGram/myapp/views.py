@@ -101,7 +101,10 @@ def home(request, selected_username=None):
             # If no user is selected, use the current user's profile
             user_profile = current_user.userprofile
 
-        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile})
+        # Get the liked posts for the current user
+        liked_posts = Likes.objects.filter(user=current_user).values_list('post', flat=True)
+
+        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts})
     else:
         return redirect('login')
 

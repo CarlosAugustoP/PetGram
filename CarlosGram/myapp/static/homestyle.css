@@ -146,6 +146,9 @@ input[type="image"] {
     margin: 15px;
 
 }
+#heart:hover {
+    transform: scale(1.2);
+}
 #postlikes {
     display: flex;
     align-items: center;
