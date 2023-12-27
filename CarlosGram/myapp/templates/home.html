@@ -51,10 +51,10 @@
             </div>
 
             {% if post.image %}
-                <img src="{{ post.image.url }}" alt="">
+                <img id = "post_image" src="{{ post.image.url }}" alt="">
             {% endif %}
             <p>{{ post.description }}</p>
-            <p>{{ post.date }}</p>
+            <p id = "date">{{ post.date }}</p>
         </div>
         {% endfor %}
     </div>

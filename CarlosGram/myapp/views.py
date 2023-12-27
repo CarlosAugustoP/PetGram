@@ -89,11 +89,6 @@ def home(request, selected_username=None):
     
     if current_user.is_authenticated:
         posts = Post.objects.all()  # Retrieve all instances of a post
-        if request.method == 'POST':
-            if 'like' in request.POST:
-                post_id = request.POST.get('post_id')
-                like(request, post_id)
-                return redirect('home')
         
         if selected_username:
             # If a user is selected, retrieve the UserProfile instance

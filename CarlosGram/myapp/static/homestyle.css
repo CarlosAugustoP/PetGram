@@ -10,6 +10,12 @@ img {
     width: 75%;
 }
 
+#post_image {
+    border-radius: 10px;
+    box-shadow: 0 5px 7px rgba(22, 45, 255, 0.2);
+    border: 3px solid #ffffff;
+}
+
 .post {
     margin: 50px auto;
     width: 400px;
@@ -136,10 +142,8 @@ input[type="image"] {
     
 }
 #heart {
-    
     width:30px;
     margin: 15px;
-    
 
 }
 #postlikes {
@@ -147,5 +151,10 @@ input[type="image"] {
     align-items: center;
 }
 #postlikes p {
-    margin-right: 10px;
+    position: relative;
+    right: 10px;
+}
+#date{
+    font-size: 12px;
+    color : #cecece;
 }
