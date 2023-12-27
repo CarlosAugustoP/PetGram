@@ -4,12 +4,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, CreateNewPost, DemandForm, UserProfileForm
-from .models import Post, User, UserProfile
+from .models import Post, User, UserProfile, Likes
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
 
 # Create your views here.
 def signup(request):    
@@ -43,27 +44,9 @@ def loginPage(request):
 
     return render(request, 'login.html')
 
-@login_required
-def home(request, selected_username=None):
-    current_user = request.user
-    
-    if current_user.is_authenticated:
-        posts = Post.objects.all()  # Retrieve all instances of a post
-
-        if selected_username:
-            # If a user is selected, retrieve the UserProfile instance
-            try:
-                user_profile = UserProfile.objects.get(user__username=selected_username)
-            except UserProfile.DoesNotExist:
-                # Handle the case when the selected user does not exist
-                user_profile = None
-        else:
-            # If no user is selected, use the current user's profile
-            user_profile = current_user.userprofile
-
-        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile})
-    else:
-        return redirect('login')
+def post_details (request, post_id):
+    post = Post.objects.get(id=post_id)
+    return render(request, 'post_details.html', {'post': post})
 
 def post_create(request):
   if request.method == 'POST':
@@ -83,11 +66,49 @@ def post_create(request):
   return render(request, 'createnewpost.html', {'form': form})
   
 @login_required
-def like_a_post(request):
-    post = get_object_or_404(post, id=request.POST.get('post_id'))
-    post.who_liked.add(request.user)
-    post.save()
-    return HttpResponseRedirect(post.get_absolute_url())
+def like(request, post_id):
+    user = request.user 
+    post = Post.objects.get(id=post_id)
+    current_likes = post.likes 
+    liked = Likes.objects.filter(user = user, post =post).count() #check if user (currently logged in) has liked current post
+    if not liked:# if a post is not liked, create an instance of a like for the current post
+        liked = Likes.objects.create(user=user, post=post)
+        current_likes = current_likes + 1 #increment like by 1
+    else:
+        Likes.objects.filter(user=user, post=post).delete() #delete instance of like if user clicks like again
+        current_likes = current_likes - 1
+    
+    post.likes = current_likes #update current likes in post model 
+    post.save() 
+    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER')) #redirect to the same page after liking post
+
+@login_required
+def home(request, selected_username=None):
+    current_user = request.user
+    
+    if current_user.is_authenticated:
+        posts = Post.objects.all()  # Retrieve all instances of a post
+        if request.method == 'POST':
+            if 'like' in request.POST:
+                post_id = request.POST.get('post_id')
+                like(request, post_id)
+                return redirect('home')
+        
+        if selected_username:
+            # If a user is selected, retrieve the UserProfile instance
+            try:
+                user_profile = UserProfile.objects.get(user__username=selected_username)
+            except UserProfile.DoesNotExist:
+                # Handle the case when the selected user does not exist
+                user_profile = None
+        else:
+            # If no user is selected, use the current user's profile
+            user_profile = current_user.userprofile
+
+        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile})
+    else:
+        return redirect('login')
 
 @login_required
 def logoutPage(request):
@@ -142,4 +163,3 @@ def view_profile(request, username=None):
     }
 
     return render(request, 'profile.html', context)
-

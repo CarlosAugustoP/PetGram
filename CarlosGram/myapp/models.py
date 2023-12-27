@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
+import uuid
+
 
 # Create your models here.
 
@@ -26,14 +28,14 @@ class UserProfile(models.Model):
         return self.user.username
     
 class Post(models.Model):
-    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null= True)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(null=True, upload_to='images/')
     description = models.CharField(max_length=500, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     comment = models.CharField(max_length=100, null=True, blank=True)
-    who_liked = models.ManyToManyField(User, related_name='who_liked', blank=True)
+    who_liked = models.ManyToManyField(User, related_name='liked_posts', blank=True)
 
     def __str__(self):
         return self.description
@@ -43,3 +45,9 @@ class Post(models.Model):
         self.save()
 
 
+class Likes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='liked_posts_reverse')
+
+    def __str__(self):
+        return self.user.username

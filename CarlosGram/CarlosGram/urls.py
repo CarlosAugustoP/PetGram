@@ -27,7 +27,10 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('create/', views.post_create, name='create'),
     path('profile/', views.view_profile, name='view_profile'),
-    path('profile/<str:username>/', views.view_profile, name='view_other_profile')
+    path('profile/<str:username>/', views.view_profile, name='view_other_profile'),
+    path('post/<str:post_id>/', views.post_details, name='post_details'),
+    path('post/<str:post_id>/', views.like, name='like_post'),
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

@@ -124,8 +124,8 @@ pre {
     flex-direction: row; 
 }
 
-#like {
-    position: relative;
+input[type="image"] {
+    
     right: 125px;
     width: 25px;
     top: -12px;
@@ -134,4 +134,18 @@ pre {
     position: relative;
     right: 255px;
     
+}
+#heart {
+    
+    width:30px;
+    margin: 15px;
+    
+
+}
+#postlikes {
+    display: flex;
+    align-items: center;
+}
+#postlikes p {
+    margin-right: 10px;
 }
