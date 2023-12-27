@@ -37,28 +37,26 @@
             </div>
         
         {% for post in posts %}
-        <div class="post">
-            
+        <div class="post">      
             <div class = "info">
                 <a href="{% url 'view_other_profile' username=post.user.username %}">
                     <pre><span><img id = "profilepic" src="{{ post.user_profile.profile_image.url }}" alt="">  {{ post.user.username }}</span></pre>
-                </a>
-               
+                </a>       
                <div id = "postlikes">
                     {% if post.id in liked_posts %}
                     <a href="{% url 'like_post' post.id %}">
                         <img id = "heart" src="{% static 'img/LikedPost.png' %}" alt="">
-                    </a><p>{{ post.likes}}</p>
-                    
+                    </a><p>{{ post.likes}}</p>  
                     {% else %}
                     <a href="{% url 'like_post' post.id %}">
                         <img id = "heart" src="{% static 'img/likePost.svg' %}" alt="">
-                    </a><p>{{ post.likes}}</p>
-                       
+                    </a><p>{{ post.likes}}</p>       
                     {% endif %}
+                    <a href="{% url 'post_details' post.id %}">
+                        <img id = "heart" style = "width: 26px" src="{% static 'img/comment.svg' %}" alt="">
+                    </a><p>0</p>
                </div>
             </div>
-
             {% if post.image %}
                 <img id = "post_image" src="{{ post.image.url }}" alt="">
             {% endif %}

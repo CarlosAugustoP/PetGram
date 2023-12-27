@@ -141,11 +141,12 @@ input[type="image"] {
     right: 255px;
     
 }
+
 #heart {
     width:30px;
     margin: 15px;
-
 }
+
 #heart:hover {
     transform: scale(1.2);
 }
