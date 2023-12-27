@@ -25,13 +25,16 @@
             </div>
             {% endfor %}
         </div>
-        <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
-            {% if is_own_profile %}
-               {% csrf_token %}
-               {{ form.as_p }}
-               <button type="submit">Save</button>
-           {% endif %} 
-           </form>
+        {% if is_own_profile %}
+        <details>
+            <summary>Edit Profile</summary>
+            <form method="post" method="POST" enctype="multipart/form-data" id="post-form">                
+                   {% csrf_token %}
+                   {{ form.as_p }}
+                   <button id = "edit" type="submit">Save</button>
+               </form>
+        </details>
+        {% endif %}
     </div>  
 </body>
 

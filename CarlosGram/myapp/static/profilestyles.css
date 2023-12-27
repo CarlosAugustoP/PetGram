@@ -49,7 +49,7 @@ h1 {
     flex-direction: row;
 }
 button {
-    box-shadow: 0 7px 7px rgba(22, 45, 255, 0.2);
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     border: 3px solid #20a6db;
     background-color: #ffffff;
@@ -74,4 +74,34 @@ button {
     color : #5e5f5f;
     position: absolute;
     top: 125px;
+}
+
+details {
+    position:relative;
+    top:30px;
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 3px solid #20a6db;
+    background-color: #ffffff;
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+details:hover {
+    cursor: pointer;
+    
+}
+
+#edit {
+    position: relative;
+    left: 15px;
+    font-size: 20px;
+    bottom: 10px;
+    left: 500px;
+}
+
+button:hover {
+    background-color: #20a6db;
+    color: white;
 }
