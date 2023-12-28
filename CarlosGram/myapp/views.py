@@ -174,8 +174,11 @@ def comment (request, post_id):
             comment.user_profile = request.user.userprofile
             comment.post = post
             comment.save()
+            post.comment += 1
+            post.save()
+            print(post.comment)
             print('Valid comment')
-            return redirect('home')
+            
         else:
             error_message = 'Every comment must have a text. Try again!'
             messages.error(request, error_message, extra_tags='TEXT_BLANK_ERROR')

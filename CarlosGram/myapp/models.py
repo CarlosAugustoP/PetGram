@@ -34,7 +34,7 @@ class Post(models.Model):
     description = models.CharField(max_length=500, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
-    comment = models.CharField(max_length=100, null=True, blank=True)
+    comment = models.IntegerField(default=0)
     who_liked = models.ManyToManyField(User, related_name='liked_posts', blank=True)
 
     def __str__(self):
