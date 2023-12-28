@@ -1,8 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm
-from .models import User,Post, UserProfile
-
+from .models import User,Post, UserProfile, Comment
 class SignupForm(UserCreationForm):
   class Meta:
     model = User
@@ -30,3 +29,13 @@ class UserProfileForm(forms.ModelForm):
       labels = {
           'profile_image': 'Foto de perfil',
       }
+
+class CommentForm(forms.ModelForm):
+   class Meta:
+      model = Comment
+      fields = ['comment']
+      labels = {
+          'comment': 'Comentário',
+      }
+
+    

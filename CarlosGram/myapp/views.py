@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignupForm, CreateNewPost, DemandForm, UserProfileForm
-from .models import Post, User, UserProfile, Likes
+from .forms import SignupForm, CreateNewPost, DemandForm, UserProfileForm, CommentForm
+from .models import Post, User, UserProfile, Likes, Comment
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -161,3 +161,27 @@ def view_profile(request, username=None):
     }
 
     return render(request, 'profile.html', context)
+
+@login_required
+def comment (request, post_id):
+    post = Post.objects.get(id=post_id)
+    comments = Comment.objects.filter(post=post)
+    form = CommentForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.user_profile = request.user.userprofile
+            comment.post = post
+            comment.save()
+            print('Valid comment')
+            return redirect('home')
+        else:
+            error_message = 'Every comment must have a text. Try again!'
+            messages.error(request, error_message, extra_tags='TEXT_BLANK_ERROR')
+            print('Invalid comment')
+    else:
+        form = CommentForm()
+        print('Method is not post')
+    return render(request, 'post_details.html', {'form': form , 'comments': comments, 'post': post})
+        

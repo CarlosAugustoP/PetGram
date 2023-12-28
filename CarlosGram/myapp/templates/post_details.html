@@ -1,1 +1,19 @@
-post details
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post</button>
+    </form>
+    {% for comment in comments %}
+    <img src="{{ comment.user_profile.profile_image.url }}" alt="">
+        <p>{{ comment.user.username }}: {{ comment.comment }}</p>
+    {% endfor %}
+</body>
+</html>
