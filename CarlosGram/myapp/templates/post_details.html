@@ -20,9 +20,12 @@
             </div>
             <div class = "post_comments">
                 {% for comment in comments %}
-                <img id = "profile_image" src="{{ comment.user_profile.profile_image.url }}" alt="">
-                    <p>{{ comment.user.username }}: {{ comment.comment }}</p>
-                {% endfor %}
+                <div id = "user">
+                    <img id = "profile_image" src="{{ comment.user_profile.profile_image.url }}" alt="">
+                        <pre>  {{ comment.user.username }}: {{ comment.comment }}  </pre>
+                    </div>
+                    {% endfor %}
+                
                 <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
                     {% csrf_token %}
                     {{ form.as_p }}
