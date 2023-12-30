@@ -13,24 +13,37 @@
     <div class = "post_details">
         <div class = "test">
             <div class = "post_image_and_likes">
-                <img src = "{{ post.image.url }}" alt="">
-                <p>{{ post.user.username }}: {{ post.description }}</p>
-                <p>{{ post.likes }}</p>
-                <p>{{ post.comment }}</p>
+                <div class = img_container><img id = "post_image" src = "{{ post.image.url }}" alt=""></div>
+                <div class = "post_info">
+                    <div id = "user">
+                        <img id = "main_image" src="{{ post.user_profile.profile_image.url }}" alt="">
+                        <strong>{{ post.user.username }}</strong>
+                        <a href="{% url 'like_post' post.id %}">
+                            <img id = "heart" src="{% static 'img/likePost.svg' %}" alt="">
+                        </a><p>{{ post.likes}}</p>  
+                    </div>
+                    <p id = "post_desc">"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"</p>
+                    <p>likes {{ post.likes }}</p>
+                    <p>comments {{ post.comment }}</p>
+                </div>
             </div>
             <div class = "post_comments">
-                {% for comment in comments %}
-                <div id = "user">
-                    <img id = "profile_image" src="{{ comment.user_profile.profile_image.url }}" alt="">
-                        <pre>  {{ comment.user.username }}: {{ comment.comment }}  </pre>
-                    </div>
-                    {% endfor %}
+                <div class = "all_comments">
+                    {% for comment in comments %}
+                    <div id = "user">
+                        <img id = "profile_image" src="{{ comment.user_profile.profile_image.url }}" alt="">
+                            <pre>  {{ comment.user.username }}: {{ comment.comment }}  </pre>
+                        </div>
+                        {% endfor %}
+                </div>
                 
-                <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Post</button>
-                </form>
+                <div class = "insert_new_comment">
+                    <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Post</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
