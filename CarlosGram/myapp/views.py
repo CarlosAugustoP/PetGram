@@ -167,6 +167,7 @@ def comment (request, post_id):
     post = Post.objects.get(id=post_id)
     comments = Comment.objects.filter(post=post)
     form = CommentForm(request.POST)
+    current_user = request.user
     if request.method == 'POST':
         if form.is_valid():
             comment = form.save(commit=False)
@@ -186,5 +187,6 @@ def comment (request, post_id):
     else:
         form = CommentForm()
         print('Method is not post')
-    return render(request, 'post_details.html', {'form': form , 'comments': comments, 'post': post})
+    liked_posts = Likes.objects.filter(user=current_user).values_list('post', flat=True)
+    return render(request, 'post_details.html', {'form': form , 'comments': comments, 'post': post, 'liked_posts': liked_posts})
         

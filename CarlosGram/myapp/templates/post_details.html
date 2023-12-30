@@ -18,13 +18,24 @@
                     <div id = "user">
                         <img id = "main_image" src="{{ post.user_profile.profile_image.url }}" alt="">
                         <strong>{{ post.user.username }}</strong>
-                        <a href="{% url 'like_post' post.id %}">
-                            <img id = "heart" src="{% static 'img/likePost.svg' %}" alt="">
-                        </a><p>{{ post.likes}}</p>  
+                        <div class = "like_post">
+                            {% if post.id in liked_posts %}
+                                <a href="{% url 'like_post' post.id %}">
+                                    <img id = "heart" src="{% static 'img/test.png' %}" alt="">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'like_post' post.id %}">
+                                    <img id = "heart" src="{% static 'img/heart_black.svg' %}" alt="">
+                                </a>
+                            {% endif %}
+                            <p id = "amount_likes">{{ post.likes}} likes</p>
+                        </div>
+                        <div class = "like_post">
+                                <img id = "comment" src="{% static 'img/comment_black.svg' %}" alt="">
+                            <p id = "amount_likes"> {{ post.comment }} comments</p>
+                        </div>
                     </div>
-                    <p id = "post_desc">"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"</p>
-                    <p>likes {{ post.likes }}</p>
-                    <p>comments {{ post.comment }}</p>
+                    <p id = "post_desc">"{{post.description}}"</p>
                 </div>
             </div>
             <div class = "post_comments">
@@ -32,15 +43,16 @@
                     {% for comment in comments %}
                     <div id = "user">
                         <img id = "profile_image" src="{{ comment.user_profile.profile_image.url }}" alt="">
-                            <pre>  {{ comment.user.username }}: {{ comment.comment }}  </pre>
-                        </div>
-                        {% endfor %}
+                            <p id =  "comment_info">  {{ comment.user.username }}: {{ comment.comment }}  </p>
+                    </div>
+                    {% endfor %}
                 </div>
-                
                 <div class = "insert_new_comment">
                     <form method="post" method="POST" enctype="multipart/form-data" id="post-form">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        
+                            <input type="text" name="comment" placeholder="Insert a comment..." required value="{{ form.username.value|default:'' }}">
+                        <br>
                         <button type="submit">Post</button>
                     </form>
                 </div>
