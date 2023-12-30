@@ -11,8 +11,24 @@
     <div class = "container">
         <div class = "user">
             <pre><h1 id = "username"><img id = "profile" src="{{ user_profile.profile_image.url }}" alt="">  {{ user_profile.user.username }}</h1></pre>
-            <button id = "follow">follow</button>
+            {% if not is_own_profile %}
+                    {% if is_following %}
+                        <a href="{% url 'follow_user' user_profile.user.username %}">
+                            <button id="follow">unfollow</button>
+                        </a>
+                    {% else %}
+                    <a href="{% url 'follow_user' user_profile.user.username %}">
+                        <button id="follow">follow</button>
+                    </a>
+                    {% endif %}
+            {% endif %}
         </div>
+        
+        <p id = "amounts">
+            <strong>{{ user_profile.user.amount_of_followers }} </strong> followers
+            <strong>{{ user_profile.user.amount_of_following}} </strong> following
+        </p>
+        
         {% if user_profile.bio %}
             <p id="bio">"{{ user_profile.bio }}"</p>
         {% endif %}

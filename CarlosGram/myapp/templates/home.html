@@ -33,6 +33,9 @@
                     <h2>Welcome back, {{user.username}}</h2>
                     <p>Later add information to a card</p>
                     <button>hey there</button>
+                    {% for follower in followers %}
+                        {{follower.username}}
+                    {% endfor %}
                 </div>
             </div>
         

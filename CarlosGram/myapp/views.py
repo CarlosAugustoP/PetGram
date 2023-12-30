@@ -85,8 +85,9 @@ def like(request, post_id):
 
 @login_required
 def home(request, selected_username=None):
+    followers = request.user.followers.all()
     current_user = request.user
-    
+    users = User.objects.all()
     if current_user.is_authenticated:
         posts = Post.objects.all()  # Retrieve all instances of a post
         
@@ -104,7 +105,7 @@ def home(request, selected_username=None):
         # Get the liked posts for the current user
         liked_posts = Likes.objects.filter(user=current_user).values_list('post', flat=True)
 
-        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts})
+        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts, 'users': users, 'followers': followers})
     else:
         return redirect('login')
 
@@ -121,7 +122,6 @@ def create_profile (sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_profile (sender, instance, **kwargs):
-    print('Profile saved!')
     instance.userprofile.save()
 
 @login_required
@@ -129,10 +129,12 @@ def view_profile(request, username=None):
     current_user = request.user
     if username: #checkl if username exists 
         user = get_object_or_404(User, username=username) #if it does, get the user object
+        if current_user in user.followers.all():
+            is_following = True
+        else:
+            is_following = False
         posts = Post.objects.filter(user=user)
-        print(user)
         user_profile = get_object_or_404(UserProfile, user=user) #get the user profile object
-        print(user_profile)
         if user == current_user:
             is_own_profile = True
         else:
@@ -147,17 +149,17 @@ def view_profile(request, username=None):
         posts = Post.objects.filter(user=current_user)
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
-            print('Form is valid!')
             form.save()
     else:
         form = UserProfileForm(instance=user_profile)
-        print('Form is not valid!')
 
     context = {
         'user_profile': user_profile,
         'is_own_profile': is_own_profile,
         'form': form,
         'posts': posts,
+        'username': user.username,
+        'is_following': is_following
     }
 
     return render(request, 'profile.html', context)
@@ -186,7 +188,32 @@ def comment (request, post_id):
             print('Invalid comment')
     else:
         form = CommentForm()
-        print('Method is not post')
     liked_posts = Likes.objects.filter(user=current_user).values_list('post', flat=True)
     return render(request, 'post_details.html', {'form': form , 'comments': comments, 'post': post, 'liked_posts': liked_posts})
         
+@login_required
+def follow(request, username):
+    user = request.user #retrieve the current user
+    following_user = User.objects.get(username=username) 
+    #get the user that will be followed/unfollowed
+    if user in following_user.followers.all(): 
+        is_following = True
+        print(is_following)
+        print('Unfollowing user')
+        following_user.followers.remove(user)
+        user.following.remove(following_user)
+        user.amount_of_following -= 1
+        following_user.amount_of_followers -= 1
+        following_user.save()
+        user.save()
+    else:
+        print('Following user')
+        is_following = False
+        print(is_following)
+        following_user.followers.add(user)
+        user.following.add(following_user)
+        user.amount_of_following += 1
+        following_user.amount_of_followers += 1
+        following_user.save()
+        user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'), {'is_following': is_following})

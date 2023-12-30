@@ -104,3 +104,13 @@ button:hover {
     background-color: #20a6db;
     color: white;
 }
+
+#amounts{
+    font-size: 20px;
+    color: rgb(98, 98, 98);
+}
+
+strong {
+    color : #000000;
+    
+}
