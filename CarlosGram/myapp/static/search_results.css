@@ -2,3 +2,32 @@ body {
     font-family: 'Afacad', sans-serif;
     font-size: 18px;
 }
+button {
+    display: block;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: 3px solid #20a6db;
+    background-color: #ffffff;
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #20a6db;
+    color: white;
+}
+
+#search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+#search-bar input[type="text"] {
+    width: 430px;
+    height: 40px;
+    font-size: 16px;
+    border: 1px solid #CCC;
+    border-radius: 10px;
+    box-shadow: 0 5px 7px rgba(22, 45, 255, 0.2);
+}

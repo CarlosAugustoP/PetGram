@@ -16,7 +16,7 @@
         <button type="submit">Search</button>
     </form>
     {% if not searched %}
-        <p>looks  like you havent searched for anything...</p>
+        <p>looks like you havent searched for anything...</p>
     {% else %}
     {% for user in users %}
         <a href="{% url 'view_other_profile' username=user.username %}">

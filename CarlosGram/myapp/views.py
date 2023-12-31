@@ -95,6 +95,7 @@ def home(request, selected_username=None):
     followers = request.user.followers.all()
     current_user = request.user
     users = User.objects.all()
+    userprofiles = UserProfile.objects.all()
     if current_user.is_authenticated:
         posts = Post.objects.all().order_by('-id') 
         if selected_username:
@@ -111,7 +112,7 @@ def home(request, selected_username=None):
         # Get the liked posts for the current user
         liked_posts = Likes.objects.filter(user=current_user).values_list('post', flat=True)
 
-        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts, 'users': users, 'followers': followers, 'current_user': current_user})
+        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts, 'users': users, 'followers': followers, 'current_user': current_user, 'userprofiles': userprofiles})
     else:
         return redirect('login')
 
