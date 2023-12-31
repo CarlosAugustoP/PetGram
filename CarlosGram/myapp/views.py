@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignupForm, CreateNewPost, DemandForm, UserProfileForm, CommentForm
-from .models import Post, User, UserProfile, Likes, Comment
+from .models import Post, User, UserProfile, Likes, Comment, Notification
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -76,6 +76,12 @@ def like(request, post_id):
     if not liked:# if a post is not liked, create an instance of a like for the current post
         liked = Likes.objects.create(user=user, post=post)
         current_likes = current_likes + 1 #increment like by 1
+        user_profile = UserProfile.objects.get(user=user)
+        new_notification = Notification.objects.create(user=post.user)
+        new_notification.message = f'{user.username} has liked your post!'
+        new_notification.user_profile = user_profile
+        new_notification.post = post #
+        new_notification.save()
     else:
         Likes.objects.filter(user=user, post=post).delete() #delete instance of like if user clicks like again
         current_likes = current_likes - 1
@@ -97,6 +103,7 @@ def home(request, selected_username=None):
     current_user = request.user
     users = User.objects.all()
     userprofiles = UserProfile.objects.all()
+    notifications = Notification.objects.filter(user=current_user)
     if current_user.is_authenticated:
         posts = Post.objects.all().order_by('-id') 
         if selected_username:
@@ -113,7 +120,7 @@ def home(request, selected_username=None):
         # Get the liked posts for the current user
         liked_posts = Likes.objects.filter(user=current_user).values_list('post', flat=True)
 
-        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts, 'users': users, 'followers': followers, 'current_user': current_user, 'userprofiles': userprofiles})
+        return render(request, 'home.html', {'posts': posts, 'user_profile': user_profile, 'liked_posts': liked_posts, 'users': users, 'followers': followers, 'current_user': current_user, 'userprofiles': userprofiles, 'notifications' : notifications})
     else:
         return redirect('login')
 
@@ -189,6 +196,12 @@ def comment (request, post_id):
             post.save()
             print(post.comment)
             print('Valid comment')
+            user_profile = UserProfile.objects.get(user=current_user)
+            new_notification = Notification.objects.create(user=post.user)
+            new_notification.message = f'{current_user.username} has commented in your post!'
+            new_notification.user_profile = user_profile
+            new_notification.post = post #
+            new_notification.save()
             
         else:
             error_message = 'Every comment must have a text. Try again!'
@@ -224,6 +237,11 @@ def follow(request, username):
         following_user.amount_of_followers += 1
         following_user.save()
         user.save()
+        user_profile = UserProfile.objects.get(user=user)
+        new_notification = Notification.objects.create(user=following_user)
+        new_notification.message = f'{user.username} has followed you!'
+        new_notification.user_profile = user_profile
+        new_notification.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'), {'is_following': is_following})
 
 def search(request):

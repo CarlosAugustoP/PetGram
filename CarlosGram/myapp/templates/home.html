@@ -29,7 +29,10 @@
                         </a>
                     {% endif %}
                 {% endfor %}
-                
+                <h2>Notifications</h2>
+                {% for notification in notifications %}
+                        <p>{{ notification.message }}</p>
+                {% endfor %}
             </div>
         </div>
         <div class="posts">
