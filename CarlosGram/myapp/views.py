@@ -89,7 +89,7 @@ def home(request, selected_username=None):
     current_user = request.user
     users = User.objects.all()
     if current_user.is_authenticated:
-        posts = Post.objects.all()  # Retrieve all instances of a post
+        posts = Post.objects.all().order_by('-id') 
         if selected_username:
             # If a user is selected, retrieve the UserProfile instance
             try:

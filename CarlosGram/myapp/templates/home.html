@@ -31,13 +31,15 @@
             <div class="card">
                 <div class="card-content">
                     <h2>Welcome back, {{user.username}}</h2>
-                    <p>Later add information to a card</p>
-                    <button>hey there</button>
-                    {% for follower in followers %}
-                        {{follower.username}}
-                    {% endfor %}
+                    <p>We think your {{user.species}} looks adorable!</p>
+                    <p>Be sure yourself! Check out your profile!</p>
+                    <a href="{% url 'view_other_profile' username=user.username %}"><button>My Profile</button></a>
+                    
                 </div>
             </div>  
+            {% if current_user.amount_of_following == 0 %}
+                <p id = "opening_message">looks like you're not following anyone yet... <strong>Search</strong> for a user, and lets start your petgram journey!</p>
+            {% endif %}
         {% for post in posts %}
         {% if current_user in post.user.followers.all %}
             <div class="post">      
