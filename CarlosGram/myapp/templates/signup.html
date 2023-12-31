@@ -48,6 +48,16 @@
         <label for="{{ form.address.id_for_label }}"></label>
         <input type="text" name="address" placeholder="Country" required value="{{ form.address.value|default:'' }}">
         <br>
+
+        <label for="{{ form.species.id_for_label }}"></label>
+        <select name="species" id="species" required>
+            <option value="" disabled selected>Species</option>
+            {% for choice in species_choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        
         <strong>Already have an account? </strong><a href="{% url 'index' %}">Login here!</a>
         <button type="submit">Signup</button>
         

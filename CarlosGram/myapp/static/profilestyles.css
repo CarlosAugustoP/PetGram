@@ -114,3 +114,11 @@ strong {
     color : #000000;
     
 }
+
+#species {
+    color: rgb(98, 98, 98);
+    position: relative;
+    left: 15px;
+    font-size: 25px;
+    bottom: 12px;
+}

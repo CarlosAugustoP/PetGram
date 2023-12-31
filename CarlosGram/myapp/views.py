@@ -14,6 +14,7 @@ from django.urls import reverse
 
 # Create your views here.
 def signup(request):    
+    species_choices = User.SPECIES_CHOICES 
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
@@ -26,7 +27,7 @@ def signup(request):
             
     else:
         form = SignupForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form, 'species_choices': species_choices})
 
 def loginPage(request):
     if request.method == 'POST':

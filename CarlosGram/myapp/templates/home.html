@@ -21,7 +21,7 @@
     <div class="posts">
         <div class="card2">
             <div class="card-content">
-                <h2>Other {{user.species}}s for you to meet!</h2>
+                <h2>Other {{user.species}}{% if user.species == 'fish' %}e{% endif %}s for you to meet!</h2>
                 {% for userprofile in userprofiles %} 
                     {% if userprofile.user.species == current_user.species and userprofile.user != current_user %}
                         <a href="{% url 'view_other_profile' username=userprofile.user.username %}">
