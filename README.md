@@ -1,2 +1,2 @@
 # PetGram
-PetGram is a social media where users can share things about their pets, created for fun and knowledge. 
+PetGram is a social media where users can share things about their pets, created for fun and knowledge. It is a way for me to improve my skills in django, and put in practice html and css concepts i've been needing to understand. it's worth noting that petgram shows my evolution throughout its commits. Each commit is a chapter in my coding adventure, showcasing the progress I've made in HTML, CSS, and Django. 
