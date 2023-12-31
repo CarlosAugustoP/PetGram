@@ -88,13 +88,13 @@ span {
     right: 50px
 }
 
-.search-bar {
+#search-bar {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-right: 240px;
 }
-.search-bar input[type="text"] {
+#search-bar input[type="text"] {
     width: 430px;
     height: 40px;
     font-size: 16px;

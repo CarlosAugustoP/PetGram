@@ -13,9 +13,10 @@
         <a href="{% url 'create' %}">
             <img id="new" src="{% static 'img/addNewpost.png' %}" alt="Add a new post" title="Add a new post">      
         </a> 
-        <div class="search-bar">
-            <input type="text" placeholder=" Search...">
-        </div>
+        <form id="search-bar" method = POST action = "{% url 'search_results' %}" name = "searched">
+            {% csrf_token %}
+            <input type="text" placeholder=" Search..." name = "searched">
+        </form>
         
     <div class="posts">
         <div class="card2">

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href="{% static 'search_results.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <form id="search-bar" method="POST" action="{% url 'search_results' %}" name="searched">
+        {% csrf_token %}
+        <input type="text" name="searched" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    {% if not searched %}
+        <p>looks  like you havent searched for anything...</p>
+    {% else %}
+    {% for user in users %}
+        <a href="{% url 'view_other_profile' username=user.username %}">
+        <span> {{ user.username }}  </span>
+        </a>
+    {% endfor %}
+    {% if not users %}
+        <p>looks like there are no users with that name...</p>
+    {% endif %}
+    {% for post in posts %}
+        <a href="{% url 'comment_post' post.id %}">
+        <span> {{ post.description }}  </span>
+        </a>
+    {% endfor %}
+    {% if not posts %}
+        <p>looks like there are no posts with that description...</p>
+    {% endif %}
+    {% endif %}
+</body>
+</html>
+{% endblock %}

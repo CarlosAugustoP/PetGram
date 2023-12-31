@@ -46,7 +46,8 @@ def loginPage(request):
 
 def post_details (request, post_id):
     post = Post.objects.get(id=post_id)
-    return render(request, 'post_details.html', {'post': post})
+    comments = Comment.objects.filter(post=post)
+    return render(request, 'post_details.html', {'post': post, 'comments': comments})
 
 def post_create(request):
   if request.method == 'POST':
@@ -85,6 +86,12 @@ def like(request, post_id):
 
 @login_required
 def home(request, selected_username=None):
+    searched = request.GET.get('searched', '')
+    if searched:
+        users = User.objects.filter(username__contains=searched)
+        posts = Post.objects.filter(description__contains=searched)
+        return render(request, 'search_results.html', {'searched': searched, 'users': users})
+    
     followers = request.user.followers.all()
     current_user = request.user
     users = User.objects.all()
@@ -216,3 +223,13 @@ def follow(request, username):
         following_user.save()
         user.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'), {'is_following': is_following})
+
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        users = User.objects.filter(username__contains=searched)
+        posts = Post.objects.filter(description__contains=searched)
+        return render(request, 'search_results.html', {'searched': searched, 'users': users, 'posts': posts})
+    else:
+        print('Invalid search')
+    return render(request, 'search_results.html')

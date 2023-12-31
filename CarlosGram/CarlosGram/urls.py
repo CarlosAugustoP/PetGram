@@ -32,6 +32,7 @@ urlpatterns = [
     path('post/<str:post_id>/like', views.like, name='like_post'),
     path('post/<str:post_id>/comment', views.comment, name='comment_post'),
     path('profile/<str:username>/follow', views.follow, name='follow_user'),
+    path('search/', views.search, name='search_results'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
