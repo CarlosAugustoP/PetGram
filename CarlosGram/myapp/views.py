@@ -103,7 +103,7 @@ def home(request, selected_username=None):
     current_user = request.user
     users = User.objects.all()
     userprofiles = UserProfile.objects.all()
-    notifications = Notification.objects.filter(user=current_user)
+    notifications = Notification.objects.filter(user=current_user).order_by('-id')
     if current_user.is_authenticated:
         posts = Post.objects.all().order_by('-id') 
         if selected_username:

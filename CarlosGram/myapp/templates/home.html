@@ -22,16 +22,34 @@
         <div class="card2">
             <div class="card-content">
                 <h2>Other {{user.species}}{% if user.species == 'fish' %}e{% endif %}s for you to meet!</h2>
-                {% for userprofile in userprofiles %} 
-                    {% if userprofile.user.species == current_user.species and userprofile.user != current_user %}
-                        <a href="{% url 'view_other_profile' username=userprofile.user.username %}">
-                            <pre><span ><img id = "profilepic" src="{{ userprofile.profile_image.url }}" alt="">  {{ userprofile.user.username }}  </span></pre>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-                <h2>Notifications</h2>
-                {% for notification in notifications %}
-                        <p>{{ notification.message }}</p>
+                <div class = "user_box">
+                    {% for userprofile in userprofiles|slice:":5" %}
+                        {% if userprofile.user.species == current_user.species and userprofile.user != current_user %}
+                            <a href="{% url 'view_other_profile' username=userprofile.user.username %}">
+                                <pre><span style = "box-shadow: 0 5px 7px #20A6DB" ><img id = "profilepic" src="{{ userprofile.profile_image.url }}" alt="">  {{ userprofile.user.username }}  </span></pre>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <h2 style = "margin-top: 30px;">Notifications</h2>
+                {% for notification in notifications|slice:":5" %}
+                {% if notification.user_profile.user != current_user %}
+                <div class = notification_info>
+                        {% if not notification.post %}
+                        <img id = "profilepic" style = "border: 2px solid black" src="{{ notification.user_profile.profile_image.url }}" alt="">
+                            <a href="{% url 'view_other_profile' username=notification.user_profile.user.username %}" style = "position: relative;
+                            left: 10px;">
+                                <p>{{ notification.message }}</p>
+                            </a>
+                        {% else %}
+                        <img id = "profilepic" style = "border-radius: 0px; border: 1px solid black" src="{{ notification.post.image.url }}" alt="">
+                            <a href="{% url 'comment_post' notification.post.id %}" style = "position: relative;
+                            left: 10px;">
+                                <p>{{ notification.message }}</p>
+                            </a>
+                        {% endif %}
+                </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
