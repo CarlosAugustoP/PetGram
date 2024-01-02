@@ -52,8 +52,8 @@ span {
     
     
 }
+
 #new {
-    
     display: inline-block;
     width: 30px;
    
@@ -73,20 +73,20 @@ span {
     display: inline-block;
     width: 30px;
     height: 30px;
-    padding-right : 2px;
     border-radius: 50%;
     overflow: hidden;
 }
 
 .card2 {
-    /* Inherit styles from .card */
     width: 300px;
     border: 1px solid #CCC;
     border-radius: 10px;
     padding: 30px;
     box-shadow: 0 5px 7px rgba(22, 45, 255, 0.2);
     position: fixed;
-    right: 40px
+    right: 40px;
+    height:375px;
+    overflow: auto;
 }
 
 #search-bar {
@@ -132,11 +132,11 @@ pre {
 }
 
 input[type="image"] {
-    
     right: 125px;
     width: 25px;
     top: -12px;
 }
+
 #num {
     position: relative;
     right: 255px;
@@ -151,14 +151,17 @@ input[type="image"] {
 #heart:hover {
     transform: scale(1.2);
 }
+
 #postlikes {
     display: flex;
     align-items: center;
 }
+
 #postlikes p {
     position: relative;
     right: 10px;
 }
+
 #date{
     font-size: 12px;
     color : #cecece;
@@ -172,6 +175,7 @@ input[type="image"] {
     margin-top: 30px;
 
 }
+
 .notification_info{
     display: flex;
     flex-direction: row;
@@ -181,9 +185,11 @@ input[type="image"] {
     bottom:20px;
     
 }
+
 a {
     color: #20a6db;
 }
+
 .user_box{
     display: flex;
     flex-direction: row;
